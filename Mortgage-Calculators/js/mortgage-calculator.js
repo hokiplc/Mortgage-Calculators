@@ -198,7 +198,9 @@
         const sortedByRate = data.map(m => ({
           ...m,
           numericRate: parseFloat(m.Rate)
-        })).filter(m => m.Company !== "AIB" && m.Company !== "EBS");
+        }))
+        .filter(m => m.Company !== "AIB" && m.Company !== "EBS")
+        .sort((a, b) => a.numericRate - b.numericRate);
 
         const seenRates = new Set();
         const removeRepetition = sortedByRate.filter((item) => {
@@ -207,7 +209,7 @@
             return true;
           }
           return false;
-        }).sort((a, b) => a.numericRate - b.numericRate);
+        });
 
         const top3 = removeRepetition.slice(0, 3);
 
