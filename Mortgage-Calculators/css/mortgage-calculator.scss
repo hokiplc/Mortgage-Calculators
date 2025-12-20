@@ -1,0 +1,306 @@
+
+.wmc{
+  &Form{
+  padding: 30px;
+  background: #fff;
+  max-width: 676px;
+  border-radius: 20px;
+}
+
+// ** Layout 
+&Container{
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+&Row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+&Col{
+  flex: 1 0 0;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+// ** button group
+&Btn {
+  &Group{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  background-color: transparent !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+  border: 2px solid #1b75ba !important;
+  font-family: inherit !important;
+  font-weight: 500 !important;
+  color: #1b75ba !important; 
+  padding: 10px 50px !important; 
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block; 
+  border-radius: 8px !important; 
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+  cursor: pointer;
+  margin:5px !important;
+
+  &:hover, &:active, &.btnSelected{
+    background-color: #1b75ba !important; 
+    color: #fff !important;
+  }
+}
+ 
+button#wmcBtnCalculate {
+  margin-top: 22px !IMPORTANT;
+}
+
+// ** form
+&Input{
+  margin-bottom: 5px;
+  > label{
+    font-size: 14px;
+    color: #474747;
+    display: flex;
+    margin-bottom: 5px;
+  }
+  > input, select{
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    font-family: inherit;
+    border-radius: 5px;
+    color: #474747;
+    &:focus, &:active, &:focus-visible{
+      border:1px solid #1b75ba;
+      outline: none;
+    }
+  }
+}
+
+&Warning{
+  color: red;
+  font-size: 12px; 
+}
+&Feedback{
+  color: green;
+  font-size: 12px;
+}
+
+//** output 
+&Output{
+  &List {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    > li {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px 5px;
+      border-bottom: 1px solid #ccc;
+      justify-content: space-between;
+      color: inherit;
+      > span:last-child{
+        color: #1b75ba;
+          font-family: "Roboto", sans-serif;
+          font-weight: bold;
+          font-size: 22px;
+      }
+    }
+  }
+
+}
+
+
+
+} // END wmc
+
+
+
+
+
+
+
+
+
+
+
+
+.wmcInputCheckbox {
+$this:&;
+display: -webkit-inline-flex;
+display: -moz-inline-flex;
+display: -ms-inline-flex;
+display: -o-inline-flex;
+display: inline-flex;
+position: relative;
+cursor: pointer;
+> input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  z-index: 1;
+  &:checked~ #{$this}Control {
+    color: #fff;
+    background:#1b75ba;
+    border-color: #1b75ba;
+    &:after {
+      transform:rotate(45deg) scale(1);
+      opacity: 1;
+      border-color:#fff;
+    }
+  }
+}
+
+// checkbox base 
+&Control {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  position: relative;
+  margin-right: 10px;
+  border-radius: 2px;
+  transition:.3s;
+  flex: 0 0 auto;
+  &:after{ 
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:rotate(45deg) scale(0);
+    opacity: 0;
+    width: 6px;
+    height: 11px;
+    margin-left: -3px;
+    margin-top: -8px;
+    border-width: 0 2px 2px 0;
+    border-color: #ccc;
+    border-style: solid;
+    transition: .3s;
+  }
+}
+}
+
+
+
+
+.boItem {
+background: #f7f7f7;
+padding: 20px;
+height: 100%;
+display: flex;
+flex-direction: column;
+
+&Img {
+  min-height: 80px;
+  display: flex;
+  align-items: end;
+  > img{
+    max-width: 60px;
+  }
+}
+&txt{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  li {
+    border-bottom: 1px solid #ccc;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+}
+.wmcBtn {
+  background: #1b75ba;
+  color: #fff;
+  border-radius: 50px;
+  padding: 7px 15px !important;
+  font-size: 12px;
+  width: 100%;
+  transition: 0.3s;
+  &:hover{
+    box-shadow: 0px 0px 10px 1px #1b75ba !important;
+  }
+}
+}
+
+
+
+
+
+
+
+
+/// range slider 
+.loanTermRange{
+  padding: 15px;
+
+}
+#loanTermRangeSlide {
+  width: 100%;
+}
+
+input[type="range"] {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none; 
+  /* creating a custom design */
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  /*  slider progress trick  */
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* Track: webkit browsers */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 12px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+/* Track: Mozilla Firefox */
+input[type="range"]::-moz-range-track {
+  height: 12px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+/* Thumb: webkit */
+input[type="range"]::-webkit-slider-thumb {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none; 
+  /* creating a custom design */
+  height: 12px;
+  width: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 2px solid #1b75ba;
+  /*  slider progress trick  */
+  box-shadow: -407px 0 0 400px #1b75ba;
+}
+
+
+/* Thumb: Firefox */
+input[type="range"]::-moz-range-thumb {
+  height: 12px;
+  width: 1px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #1b75ba;
+  /*  slider progress trick  */
+  box-shadow: -407px 0 0 400px #1b75ba;
+}

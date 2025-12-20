@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mortgage Calculator Plugin Instructions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    code {
+      background: #f4f4f4;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    .shortcode {
+      background: #f9f9f9;
+      padding: 1em;
+      border: 1px solid #ddd;
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mortgage Calculator Plugin – User Guide</h1>
+  <p>This plugin includes multiple calculators tailored for different mortgage needs in Ireland, including:</p>
+  <ul>
+    <li>First-Time Buyer</li>
+    <li>Moving House</li>
+    <li>Buy-to-Let</li>
+    <li>Switcher/Remortgage</li>
+    <li>Loan-to-Value (LTV)</li>
+    <li>Home Improvement</li>
+    <li>Foreign National</li>
+  </ul>
+
+  <section>
+    <h2>💡 How to Use</h2>
+    <p>To embed a calculator in a page or post, use one of the shortcodes below in the WordPress editor.</p>
+
+    <h3>Shortcodes:</h3>
+    <div class="shortcode"><code>[mortgage_calculator]</code> – First-Time Buyer</div>
+    <div class="shortcode"><code>[mh_calculator]</code> – Moving House</div>
+    <div class="shortcode"><code>[btl_calculator]</code> – Buy-to-Let</div>
+    <div class="shortcode"><code>[switcher_calculator]</code> – Switcher / Remortgage</div>
+    <div class="shortcode"><code>[mortgage_ltv]</code> – Loan-to-Value</div>
+    <div class="shortcode"><code>[home_improvement_calculator]</code> – Home Improvement</div>
+    <div class="shortcode"><code>[fn_calculator]</code> – Foreign National</div>
+  </section>
+
+  <section>
+    <h2>📊 How It Works</h2>
+    <ul>
+      <li>Each calculator accepts income, deposit, and other relevant inputs.</li>
+      <li>Calculations are based on income multipliers or property value ratios.</li>
+      <li>The <strong>best 3 mortgage rates</strong> are displayed below results.</li>
+      <li>Monthly payments are calculated from a <code>bestrate.json</code> file.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📁 Files and Structure</h2>
+    <p>The plugin includes separate JS files for each calculator, a shared CSS file, and a JSON data source for rates.</p>
+
+    <pre>
+mortgage-calculator/
+├── js/
+│   ├── best3.js
+│   ├── mortgage-calculator.js
+│   └── ... (individual calculator files)
+├── shortcodes/
+│   └── mortgage.php, moving-house.php, etc.
+├── css/
+│   └── mortgage-calculator.css
+├── images/
+│   └── [CompanyName].webp
+├── bestrate.json
+└── mortgage-calculator.php
+    </pre>
+  </section>
+
+  <section>
+    <h2>📌 Notes</h2>
+    <ul>
+      <li>The plugin dynamically loads only the JS needed for each shortcode.</li>
+      <li>Best rates automatically exclude AIB and EBS unless specified otherwise.</li>
+      <li>The plugin is styled to match WordPress themes via class-based styling.</li>
+    </ul>
+  </section>
+
+</body>
+</html>

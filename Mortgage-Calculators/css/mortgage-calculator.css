@@ -1,0 +1,300 @@
+.wmcForm {
+  padding: 30px;
+  background: #fff;
+  max-width: 676px;
+  border-radius: 20px;
+}
+.wmcContainer {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.wmcRow {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.wmcCol {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.wmcBtn {
+  background-color: transparent !important;
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+  border: 2px solid #1b75ba !important;
+  font-family: inherit !important;
+  font-weight: 500 !important;
+  color: #1b75ba !important;
+  padding: 10px 50px !important;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 8px !important;
+  -webkit-transition: background-color 0.3s ease, -webkit-transform 0.2s ease;
+  transition: background-color 0.3s ease, -webkit-transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, -webkit-transform 0.2s ease;
+  cursor: pointer;
+  margin: 5px !important;
+}
+.wmcBtnGroup {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.wmcBtn:hover, .wmcBtn:active, .wmcBtn.btnSelected {
+  background-color: #1b75ba !important;
+  color: #fff !important;
+}
+.wmc button#wmcBtnCalculate {
+  margin-top: 22px !important;
+}
+.wmcInput {
+  margin-bottom: 5px;
+}
+.wmcInput > label {
+  font-size: 14px;
+  color: #474747;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 5px;
+}
+.wmcInput > input, .wmcInput select {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  font-family: inherit;
+  border-radius: 5px;
+  color: #474747;
+}
+.wmcInput > input:focus, .wmcInput > input:active, .wmcInput > input:focus-visible, .wmcInput select:focus, .wmcInput select:active, .wmcInput select:focus-visible {
+  border: 1px solid #1b75ba;
+  outline: none;
+}
+.wmcWarning {
+  color: red;
+  font-size: 12px;
+}
+.wmcFeedback {
+  color: green;
+  font-size: 12px;
+}
+.wmcOutputList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.wmcOutputList > li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 10px 5px;
+  border-bottom: 1px solid #ccc;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  color: inherit;
+}
+.wmcOutputList > li > span:last-child {
+  color: #1b75ba;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.wmcInputCheckbox {
+  display: -moz-inline-flex;
+  display: -ms-inline-flex;
+  display: -o-inline-flex;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: relative;
+  cursor: pointer;
+}
+.wmcInputCheckbox > input[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+  z-index: 1;
+}
+.wmcInputCheckbox > input[type=checkbox]:checked ~ .wmcInputCheckboxControl {
+  color: #fff;
+  background: #1b75ba;
+  border-color: #1b75ba;
+}
+.wmcInputCheckbox > input[type=checkbox]:checked ~ .wmcInputCheckboxControl:after {
+  -webkit-transform: rotate(45deg) scale(1);
+          transform: rotate(45deg) scale(1);
+  opacity: 1;
+  border-color: #fff;
+}
+.wmcInputCheckboxControl {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  position: relative;
+  margin-right: 10px;
+  border-radius: 2px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+.wmcInputCheckboxControl:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: rotate(45deg) scale(0);
+          transform: rotate(45deg) scale(0);
+  opacity: 0;
+  width: 6px;
+  height: 11px;
+  margin-left: -3px;
+  margin-top: -8px;
+  border-width: 0 2px 2px 0;
+  border-color: #ccc;
+  border-style: solid;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.boItem {
+  background: #f7f7f7;
+  padding: 20px;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.boItemImg {
+  min-height: 80px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
+}
+.boItemImg > img {
+  max-height: 75px !important;
+}
+.boItemtxt {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.boItemtxt li {
+  border-bottom: 1px solid #ccc;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.boItemtxt li:last-child {
+  border-bottom: none;
+}
+.boItem .wmcBtn {
+  background: #1b75ba;
+  color: #fff;
+  border-radius: 50px;
+  padding: 7px 15px !important;
+  font-size: 12px;
+  width: 100%;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+.boItem .wmcBtn:hover {
+  -webkit-box-shadow: 0px 0px 10px 1px #1b75ba !important;
+          box-shadow: 0px 0px 10px 1px #1b75ba !important;
+}
+
+.loanTermRange {
+  padding: 15px;
+}
+
+#loanTermRangeSlide {
+  width: 100%;
+}
+
+input[type=range] {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  /* creating a custom design */
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  /*  slider progress trick  */
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* Track: webkit browsers */
+input[type=range]::-webkit-slider-runnable-track {
+  height: 12px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+/* Track: Mozilla Firefox */
+input[type=range]::-moz-range-track {
+  height: 12px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+/* Thumb: webkit */
+input[type=range]::-webkit-slider-thumb {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  /* creating a custom design */
+  height: 12px;
+  width: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 2px solid #1b75ba;
+  /*  slider progress trick  */
+  -webkit-box-shadow: -407px 0 0 400px #1b75ba;
+          box-shadow: -407px 0 0 400px #1b75ba;
+}
+
+/* Thumb: Firefox */
+input[type=range]::-moz-range-thumb {
+  height: 12px;
+  width: 1px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #1b75ba;
+  /*  slider progress trick  */
+  box-shadow: -407px 0 0 400px #1b75ba;
+}
