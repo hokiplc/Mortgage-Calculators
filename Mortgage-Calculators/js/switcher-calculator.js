@@ -148,14 +148,16 @@
           numericRate: parseFloat(m.Rate)
         })).filter(m => m.Company !== "AIB" && m.Company !== "EBS");
 
+        const sortedByRate = filtered.sort((a, b) => a.numericRate - b.numericRate);
+
         const seen = new Set();
-        const unique = filtered.filter(m => {
+        const unique = sortedByRate.filter(m => {
           if (!seen.has(m.Company)) {
             seen.add(m.Company);
             return true;
           }
           return false;
-        }).sort((a, b) => a.numericRate - b.numericRate);
+        });
 
         const top3 = unique.slice(0, 3);
         const wrap = document.querySelector('#best3wrap .wmcRow');
