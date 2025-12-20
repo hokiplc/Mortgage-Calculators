@@ -144,11 +144,12 @@
           ...m,
           numericRate: parseFloat(m.Rate)
         })).filter(m =>
-            (m.Company === "PTSB" || m.Company === "ICS") &&
+            m.Company !== "AIB" &&
+            m.Company !== "EBS" &&
             typeof m.NOTES === 'string' &&
             /btl/i.test(m.NOTES) &&
             Number.isFinite(m.numericRate)
-    );
+        );
 
 
         const sorted = filtered.sort((a, b) => a.numericRate - b.numericRate);
