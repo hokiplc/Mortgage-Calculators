@@ -170,14 +170,16 @@
           numericRate: parseFloat(m.Rate)
         })).filter(m => m.Company !== "AIB" && m.Company !== "EBS");
 
+        const sortedByRate = sorted.sort((a, b) => a.numericRate - b.numericRate);
+
         const seen = new Set();
-        const unique = sorted.filter(m => {
+        const unique = sortedByRate.filter(m => {
           if (!seen.has(m.Company)) {
             seen.add(m.Company);
             return true;
           }
           return false;
-        }).sort((a, b) => a.numericRate - b.numericRate);
+        });
 
         const top3 = unique.slice(0, 3);
         top3.forEach(m => {

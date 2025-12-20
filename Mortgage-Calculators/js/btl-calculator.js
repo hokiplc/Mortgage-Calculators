@@ -151,14 +151,16 @@
     );
 
 
+        const sorted = filtered.sort((a, b) => a.numericRate - b.numericRate);
+
         const seen = new Set();
-        const unique = filtered.filter(m => {
+        const unique = sorted.filter(m => {
           if (!seen.has(m.Company)) {
             seen.add(m.Company);
             return true;
           }
           return false;
-        }).sort((a, b) => a.numericRate - b.numericRate);
+        });
 
         const top3 = unique.slice(0, 3);
         top3.forEach(m => {

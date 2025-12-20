@@ -16,14 +16,16 @@ function showBest3() {
       numericRate: parseFloat(m.Rate)
     })).filter(m => m.Company !== "AIB" && m.Company !== "EBS");
 
+    const sorted = sortedByRate.sort((a, b) => a.numericRate - b.numericRate);
+
     const seenRates = new Set();
-    const removeRepetition = sortedByRate.filter(item => {
+    const removeRepetition = sorted.filter(item => {
       if (!seenRates.has(item.Company)) {
         seenRates.add(item.Company);
         return true;
       }
       return false;
-    }).sort((a, b) => a.numericRate - b.numericRate);
+    });
 
     const top3 = removeRepetition.slice(0, 3);
     const parnt = document.querySelector('#best3wrap .wmcRow');
