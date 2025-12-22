@@ -10,7 +10,7 @@ function showBest3() {
     return;
   }
 
-  jQuery.getJSON(`${document.location.origin}/wp-content/plugins/mortgage-calculator/js/bestrate.cleaned.json`, function (data) {
+  jQuery.getJSON(`${document.location.origin}/wp-content/plugins/mortgage-calculator/js/bestrate.json`, function (data) {
     const sortedByRate = data.map(m => ({
       ...m,
       numericRate: parseFloat(m.Rate)
