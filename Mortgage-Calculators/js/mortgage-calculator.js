@@ -124,7 +124,7 @@
       if (ageVal < 30) {
         dyloanterm = 35;
       } else if (ageVal <= 60) {
-        dyloanterm = 70 - ageVal;
+        dyloanterm = Math.min(35, 70 - ageVal);
       } else {
         dyloanterm = 5;
       }
