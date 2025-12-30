@@ -22,6 +22,12 @@ function mortgage_calculator_register_assets() {
     wp_register_script('best3-js', plugin_dir_url(__FILE__) . 'js/best3.js', ['jquery'], '0.99', true);
     wp_enqueue_script('best3-js');
 
+    // Pass AJAX URL to JavaScript
+    wp_localize_script('best3-js', 'mortgageCalcAjax', array(
+        'ajaxUrl' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('mortgage_rates_nonce')
+    ));
+
     // Load styles
     wp_enqueue_style('mortgage-calculator-css', plugin_dir_url(__FILE__) . 'css/mortgage-calculator.css', [], '0.99');
 }
@@ -51,3 +57,32 @@ include_once plugin_dir_path(__FILE__) . 'shortcodes/switcher.php';
 include_once plugin_dir_path(__FILE__) . 'shortcodes/mortgage-ltv.php';
 include_once plugin_dir_path(__FILE__) . 'shortcodes/home-improvement.php';
 include_once plugin_dir_path(__FILE__) . 'shortcodes/foreign-national.php';
+
+// AJAX handler to proxy mortgage rates (bypasses CORS)
+function mortgage_calculator_get_rates() {
+    // Get the rates from external API
+    $response = wp_remote_get('https://broker360.ai/rates/bestrate360.json', array(
+        'timeout' => 15,
+        'headers' => array(
+            'Accept' => 'application/json'
+        )
+    ));
+
+    // Check for errors
+    if (is_wp_error($response)) {
+        wp_send_json_error(array('message' => 'Failed to fetch rates'), 500);
+        return;
+    }
+
+    // Get the body
+    $body = wp_remote_retrieve_body($response);
+
+    // Set JSON header and output
+    header('Content-Type: application/json');
+    echo $body;
+    wp_die();
+}
+
+// Register AJAX handlers for both logged-in and non-logged-in users
+add_action('wp_ajax_get_mortgage_rates', 'mortgage_calculator_get_rates');
+add_action('wp_ajax_nopriv_get_mortgage_rates', 'mortgage_calculator_get_rates');
