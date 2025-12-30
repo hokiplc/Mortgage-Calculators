@@ -29,8 +29,13 @@ function showBest3() {
 
     const sortedByRate = rates.map(m => ({
       ...m,
-      numericRate: parseFloat(m.ratePercent)
-    })).filter(m => m.lender !== "AIB" && m.lender !== "EBS");
+      numericRate: parseFloat(m.ratePercent || m.rate || 0)
+    })).filter(m =>
+      m.lender !== "AIB" &&
+      m.lender !== "EBS" &&
+      !isNaN(m.numericRate) &&
+      m.numericRate > 0
+    );
 
     const sorted = sortedByRate.sort((a, b) => a.numericRate - b.numericRate);
 
@@ -54,6 +59,7 @@ function showBest3() {
 
     top3.forEach((m) => {
       const monthly = calculateMonthlyPayment(principal, m.numericRate, term);
+      const rateValue = m.ratePercent || m.rate || 0;
       parnt.insertAdjacentHTML('beforeend',
         `<div class="wmcCol">
           <div class="boItem">
@@ -62,7 +68,7 @@ function showBest3() {
             </div>
             <ul class="boItemtxt">
               <li class="set_monthly_payment">€<span>${monthly.toFixed(0)}</span> Monthly</li>
-              <li class="set_int_rate"> <span>${m.ratePercent.toFixed(2)}</span>% Interest Rate </li>
+              <li class="set_int_rate"> <span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate </li>
             </ul>
             <div class="boIFooter">
               <a target="_blank" href="https://whichmortgage.ie/start-an-application-2/" data-url="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit target_url_link">
@@ -92,7 +98,10 @@ function showBest3() {
     footerContent += '<a href="https://broker360.ie/plugins/" target="_blank" style="color: #0066cc; text-decoration: none;">Powered by Broker360 Plugins</a>';
 
     footer.innerHTML = footerContent;
-    document.querySelector('#best3wrap').appendChild(footer);
+    const best3wrap = document.querySelector('#best3wrap');
+    if (best3wrap) {
+      best3wrap.appendChild(footer);
+    }
     },
     error: function(xhr, status, error) {
       console.error('Failed to fetch mortgage rates:', error);
