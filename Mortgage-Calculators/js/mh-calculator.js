@@ -202,8 +202,13 @@
 
         const top3 = unique.slice(0, 3);
         const wrap = document.querySelector('#best3wrap .wmcRow');
+        if (!wrap) {
+          console.error('MH Calculator: #best3wrap .wmcRow not found');
+          return;
+        }
 
         top3.forEach(m => {
+          const rateValue = m.ratePercent || m.rate || 0;
           wrap.insertAdjacentHTML('beforeend',
             `<div class="wmcCol">
               <div class="boItem">
@@ -212,7 +217,6 @@
                 </div>
                 <ul class="boItemtxt">
                   <li class="set_monthly_payment">€<span></span> Monthly</li>
-          const rateValue = m.ratePercent || m.rate || 0;
                   <li class="set_int_rate"> <span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate </li>
                 </ul>
                 <div class="boIFooter">
@@ -242,10 +246,15 @@
         footerContent += '<a href="https://broker360.ie/plugins/" target="_blank" style="color: #0066cc; text-decoration: none;">Powered by Broker360 Plugins</a>';
 
         footer.innerHTML = footerContent;
-        document.querySelector('#best3wrap').appendChild(footer);
+        const best3wrap = document.querySelector('#best3wrap');
+        if (best3wrap) {
+          best3wrap.appendChild(footer);
+        } else {
+          console.error('MH Calculator: #best3wrap not found for footer');
+        }
       },
       error: function(xhr, status, error) {
-        console.error('Failed to fetch mortgage rates:', error);
+        console.error('MH Calculator: Failed to fetch rates:', error, xhr);
       }
     });
     }
