@@ -194,7 +194,7 @@
     }
 
     function showBest3() {
-      $.getJSON(`${document.location.origin}/wp-content/plugins/mortgage-calculator/js/bestrate.json`, function (data) {
+      $.getJSON(`https://broker360.ai/rates/bestrate360.json`, function (data) {
         let metadata = null;
         let rates = data;
 
@@ -206,15 +206,15 @@
 
         const sortedByRate = rates.map(m => ({
           ...m,
-          numericRate: parseFloat(m.Rate)
+          numericRate: parseFloat(m.ratePercent)
         }))
-        .filter(m => m.Company !== "AIB" && m.Company !== "EBS")
+        .filter(m => m.lender !== "AIB" && m.lender !== "EBS")
         .sort((a, b) => a.numericRate - b.numericRate);
 
         const seenRates = new Set();
         const removeRepetition = sortedByRate.filter((item) => {
-          if (!seenRates.has(item.Company)) {
-            seenRates.add(item.Company);
+          if (!seenRates.has(item.lender)) {
+            seenRates.add(item.lender);
             return true;
           }
           return false;
@@ -228,11 +228,11 @@
             `<div class="wmcCol">
               <div class="boItem">
                 <div class="boItemImg">
-                  <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.Company}.webp" alt="">
+                  <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lender}.webp" alt="">
                 </div>
                 <ul class="boItemtxt">
                   <li class="set_monthly_payment">€<span></span> Monthly</li>
-                  <li class="set_int_rate"> <span>${m.Rate}</span>% Interest Rate </li>
+                  <li class="set_int_rate"> <span>${m.ratePercent.toFixed(2)}</span>% Interest Rate </li>
                 </ul>
                 <div class="boIFooter">
                   <a target="_blunk" href="https://whichmortgage.ie/start-an-application-2/" data-url="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit target_url_link">

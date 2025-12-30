@@ -10,7 +10,7 @@ function showBest3() {
     return;
   }
 
-  jQuery.getJSON(`${document.location.origin}/wp-content/plugins/mortgage-calculator/js/bestrate360.json`, function (data) {
+  jQuery.getJSON(`https://broker360.ai/rates/bestrate360.json`, function (data) {
     let metadata = null;
     let rates = data;
 
