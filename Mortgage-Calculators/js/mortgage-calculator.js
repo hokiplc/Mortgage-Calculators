@@ -194,7 +194,12 @@
     }
 
     function showBest3() {
-      $.getJSON(`https://broker360.ai/rates/bestrate360.json`, function (data) {
+      $.ajax({
+        url: mortgageCalcAjax.ajaxUrl,
+        type: 'POST',
+        data: { action: 'get_mortgage_rates' },
+        dataType: 'json',
+        success: function(data) {
         let metadata = null;
         let rates = data;
 
@@ -263,7 +268,11 @@
 
         footer.innerHTML = footerContent;
         document.querySelector('#best3wrap').appendChild(footer);
-      });
+      },
+      error: function(xhr, status, error) {
+        console.error('Failed to fetch mortgage rates:', error);
+      }
+    });
     }
     /*
     <a target="_blunk" href="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit">
