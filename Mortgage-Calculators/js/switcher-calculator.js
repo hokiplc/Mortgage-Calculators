@@ -165,10 +165,13 @@
 
         const filtered = rates.map(m => ({
           ...m,
-          numericRate: parseFloat(m.ratePercent || m.rate || 0)
+          // Normalize field names to support both formats
+          lenderName: m.lender || m.Company,
+          rateValue: parseFloat(m.ratePercent || m.Rate || m.rate || 0),
+          numericRate: parseFloat(m.ratePercent || m.Rate || m.rate || 0)
         })).filter(m =>
-          m.lender !== "AIB" &&
-          m.lender !== "EBS" &&
+          m.lenderName !== "AIB" &&
+          m.lenderName !== "EBS" &&
           !isNaN(m.numericRate) &&
           m.numericRate > 0
         );
@@ -179,8 +182,8 @@
 
         const seen = new Set();
         const unique = sortedByRate.filter(m => {
-          if (!seen.has(m.lender)) {
-            seen.add(m.lender);
+          if (!seen.has(m.lenderName)) {
+            seen.add(m.lenderName);
             return true;
           }
           return false;
@@ -196,12 +199,12 @@
         }
 
         top3.forEach(m => {
-          const rateValue = m.ratePercent || m.rate || 0;
+          const rateValue = m.rateValue;
           wrap.insertAdjacentHTML('beforeend', `
             <div class="wmcCol">
               <div class="boItem">
                 <div class="boItemImg">
-                  <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lender}.webp" alt="">
+                  <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lenderName}.webp" alt="">
                 </div>
                 <ul class="boItemtxt">
                   <li class="set_monthly_payment">€<span></span> Monthly</li>

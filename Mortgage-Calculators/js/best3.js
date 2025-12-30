@@ -29,10 +29,12 @@ function showBest3() {
 
     const sortedByRate = rates.map(m => ({
       ...m,
-      numericRate: parseFloat(m.ratePercent || m.rate || 0)
+      lenderName: m.lender || m.Company,
+      rateValue: parseFloat(m.ratePercent || m.Rate || m.rate || 0),
+      numericRate: parseFloat(m.ratePercent || m.Rate || m.rate || 0)
     })).filter(m =>
-      m.lender !== "AIB" &&
-      m.lender !== "EBS" &&
+      m.lenderName !== "AIB" &&
+      m.lenderName !== "EBS" &&
       !isNaN(m.numericRate) &&
       m.numericRate > 0
     );
@@ -41,8 +43,8 @@ function showBest3() {
 
     const seenRates = new Set();
     const removeRepetition = sorted.filter(item => {
-      if (!seenRates.has(item.lender)) {
-        seenRates.add(item.lender);
+      if (!seenRates.has(item.lenderName)) {
+        seenRates.add(item.lenderName);
         return true;
       }
       return false;
@@ -59,12 +61,12 @@ function showBest3() {
 
     top3.forEach((m) => {
       const monthly = calculateMonthlyPayment(principal, m.numericRate, term);
-      const rateValue = m.ratePercent || m.rate || 0;
+      const rateValue = m.rateValue;
       parnt.insertAdjacentHTML('beforeend',
         `<div class="wmcCol">
           <div class="boItem">
             <div class="boItemImg">
-              <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lender}.webp" alt="">
+              <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lenderName}.webp" alt="">
             </div>
             <ul class="boItemtxt">
               <li class="set_monthly_payment">€<span>${monthly.toFixed(0)}</span> Monthly</li>
