@@ -156,12 +156,15 @@
 
         const filtered = rates.map(m => ({
           ...m,
-          numericRate: parseFloat(m.ratePercent || m.rate || 0)
+          lenderName: m.lender || m.Company,
+          rateValue: parseFloat(m.ratePercent || m.Rate || m.rate || 0),
+          numericRate: parseFloat(m.ratePercent || m.Rate || m.rate || 0),
+          notesField: m.notes || m.NOTES || ''
         })).filter(m =>
-            m.lender !== "AIB" &&
-            m.lender !== "EBS" &&
-            typeof m.notes === 'string' &&
-            /btl/i.test(m.notes) &&
+            m.lenderName !== "AIB" &&
+            m.lenderName !== "EBS" &&
+            typeof m.notesField === 'string' &&
+            /btl/i.test(m.notesField) &&
             Number.isFinite(m.numericRate)
         );
 
@@ -170,8 +173,8 @@
 
         const seen = new Set();
         const unique = sorted.filter(m => {
-          if (!seen.has(m.lender)) {
-            seen.add(m.lender);
+          if (!seen.has(m.lenderName)) {
+            seen.add(m.lenderName);
             return true;
           }
           return false;
@@ -179,17 +182,21 @@
 
         const top3 = unique.slice(0, 3);
         const wrap = document.querySelector('#best3wrap .wmcRow');
+        if (!wrap) {
+          console.error('BTL Calculator: #best3wrap .wmcRow not found');
+          return;
+        }
 
         top3.forEach(m => {
+          const rateValue = m.rateValue;
           wrap.insertAdjacentHTML('beforeend',
             `<div class="wmcCol">
               <div class="boItem">
                 <div class="boItemImg">
-                  <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lender}.webp" alt="">
+                  <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lenderName}.webp" alt="">
                 </div>
                 <ul class="boItemtxt">
                   <li class="set_monthly_payment">€<span></span> Monthly</li>
-          const rateValue = m.ratePercent || m.rate || 0;
                   <li class="set_int_rate"> <span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate </li>
                 </ul>
                 <div class="boIFooter">
