@@ -11,7 +11,16 @@ function showBest3() {
   }
 
   jQuery.getJSON(`${document.location.origin}/wp-content/plugins/mortgage-calculator/js/bestrate.cleaned.json`, function (data) {
-    const sortedByRate = data.map(m => ({
+    let metadata = null;
+    let rates = data;
+
+    // Check if data has metadata
+    if (Array.isArray(data) && data.length > 0 && data[0]._metadata === 'timestamp') {
+      metadata = data[0];
+      rates = data.slice(1);
+    }
+
+    const sortedByRate = rates.map(m => ({
       ...m,
       numericRate: parseFloat(m.Rate)
     })).filter(m => m.Company !== "AIB" && m.Company !== "EBS");
@@ -57,6 +66,26 @@ function showBest3() {
         </div>`
       );
     });
+
+    // Add footer with timestamp and link
+    const footer = document.createElement('div');
+    footer.className = 'wmcTableFooter';
+    footer.style.cssText = 'text-align: center; padding: 15px 10px; font-size: 12px; color: #666; border-top: 1px solid #e0e0e0; margin-top: 20px;';
+
+    let footerContent = '';
+    if (metadata && metadata.last_updated) {
+      const updateDate = new Date(metadata.last_updated);
+      const formattedDate = updateDate.toLocaleDateString('en-IE', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      footerContent = `Rates last updated: ${formattedDate} | `;
+    }
+    footerContent += '<a href="https://broker360.ie/plugins/" target="_blank" style="color: #0066cc; text-decoration: none;">Powered by Broker360 Plugins</a>';
+
+    footer.innerHTML = footerContent;
+    document.querySelector('#best3wrap').appendChild(footer);
   });
 }
 
