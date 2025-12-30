@@ -211,9 +211,14 @@
 
         const sortedByRate = rates.map(m => ({
           ...m,
-          numericRate: parseFloat(m.ratePercent)
+          numericRate: parseFloat(m.ratePercent || m.rate || 0)
         }))
-        .filter(m => m.lender !== "AIB" && m.lender !== "EBS")
+        .filter(m =>
+          m.lender !== "AIB" &&
+          m.lender !== "EBS" &&
+          !isNaN(m.numericRate) &&
+          m.numericRate > 0
+        )
         .sort((a, b) => a.numericRate - b.numericRate);
 
         const seenRates = new Set();
@@ -227,8 +232,13 @@
 
         const top3 = removeRepetition.slice(0, 3);
         const parnt = document.querySelector('#best3wrap .wmcRow');
+        if (!parnt) {
+          console.error('Mortgage Calculator: #best3wrap .wmcRow not found');
+          return;
+        }
 
         top3.forEach((m, index) => {
+          const rateValue = m.ratePercent || m.rate || 0;
           parnt.insertAdjacentHTML('beforeend',
             `<div class="wmcCol">
               <div class="boItem">
@@ -237,7 +247,7 @@
                 </div>
                 <ul class="boItemtxt">
                   <li class="set_monthly_payment">€<span></span> Monthly</li>
-                  <li class="set_int_rate"> <span>${m.ratePercent.toFixed(2)}</span>% Interest Rate </li>
+                  <li class="set_int_rate"> <span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate </li>
                 </ul>
                 <div class="boIFooter">
                   <a target="_blunk" href="https://whichmortgage.ie/start-an-application-2/" data-url="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit target_url_link">
@@ -267,10 +277,15 @@
         footerContent += '<a href="https://broker360.ie/plugins/" target="_blank" style="color: #0066cc; text-decoration: none;">Powered by Broker360 Plugins</a>';
 
         footer.innerHTML = footerContent;
-        document.querySelector('#best3wrap').appendChild(footer);
+        const best3wrap = document.querySelector('#best3wrap');
+        if (best3wrap) {
+          best3wrap.appendChild(footer);
+        } else {
+          console.error('Mortgage Calculator: #best3wrap not found for footer');
+        }
       },
       error: function(xhr, status, error) {
-        console.error('Failed to fetch mortgage rates:', error);
+        console.error('Mortgage Calculator: Failed to fetch rates:', error, xhr);
       }
     });
     }

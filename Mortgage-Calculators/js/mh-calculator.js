@@ -181,8 +181,13 @@
 
         const sorted = rates.map(m => ({
           ...m,
-          numericRate: parseFloat(m.ratePercent)
-        })).filter(m => m.lender !== "AIB" && m.lender !== "EBS");
+          numericRate: parseFloat(m.ratePercent || m.rate || 0)
+        })).filter(m =>
+          m.lender !== "AIB" &&
+          m.lender !== "EBS" &&
+          !isNaN(m.numericRate) &&
+          m.numericRate > 0
+        );
 
         const sortedByRate = sorted.sort((a, b) => a.numericRate - b.numericRate);
 
@@ -207,7 +212,8 @@
                 </div>
                 <ul class="boItemtxt">
                   <li class="set_monthly_payment">€<span></span> Monthly</li>
-                  <li class="set_int_rate"> <span>${m.ratePercent.toFixed(2)}</span>% Interest Rate </li>
+          const rateValue = m.ratePercent || m.rate || 0;
+                  <li class="set_int_rate"> <span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate </li>
                 </ul>
                 <div class="boIFooter">
                   <a target="_blunk" href="https://whichmortgage.ie/start-an-application-2/" data-url="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit target_url_link">
