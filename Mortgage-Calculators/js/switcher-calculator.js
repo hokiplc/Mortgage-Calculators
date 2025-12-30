@@ -148,6 +148,8 @@
       data: { action: 'get_mortgage_rates' },
       dataType: 'json',
       success: function(data) {
+        console.log('Switcher: Raw data received:', data);
+
         let metadata = null;
         let rates = data;
 
@@ -155,12 +157,23 @@
         if (Array.isArray(data) && data.length > 0 && data[0]._metadata === 'timestamp') {
           metadata = data[0];
           rates = data.slice(1);
+          console.log('Switcher: Metadata found:', metadata);
         }
+
+        console.log('Switcher: Processing rates, count:', rates.length);
+        console.log('Switcher: First rate sample:', rates[0]);
 
         const filtered = rates.map(m => ({
           ...m,
-          numericRate: parseFloat(m.ratePercent)
-        })).filter(m => m.lender !== "AIB" && m.lender !== "EBS");
+          numericRate: parseFloat(m.ratePercent || m.rate || 0)
+        })).filter(m =>
+          m.lender !== "AIB" &&
+          m.lender !== "EBS" &&
+          !isNaN(m.numericRate) &&
+          m.numericRate > 0
+        );
+
+        console.log('Switcher: Filtered rates count:', filtered.length);
 
         const sortedByRate = filtered.sort((a, b) => a.numericRate - b.numericRate);
 
@@ -174,8 +187,16 @@
         });
 
         const top3 = unique.slice(0, 3);
+        console.log('Switcher: Top 3 rates:', top3);
+
         const wrap = document.querySelector('#best3wrap .wmcRow');
+        if (!wrap) {
+          console.error('Switcher: #best3wrap .wmcRow not found');
+          return;
+        }
+
         top3.forEach(m => {
+          const rateValue = m.ratePercent || m.rate || 0;
           wrap.insertAdjacentHTML('beforeend', `
             <div class="wmcCol">
               <div class="boItem">
@@ -184,7 +205,7 @@
                 </div>
                 <ul class="boItemtxt">
                   <li class="set_monthly_payment">€<span></span> Monthly</li>
-                  <li class="set_int_rate"><span>${m.ratePercent.toFixed(2)}</span>% Interest Rate</li>
+                  <li class="set_int_rate"><span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate</li>
                 </ul>
                 <div class="boIFooter">
                   <a target="_blunk" href="https://whichmortgage.ie/start-an-application-2/"  data-url="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit target_url_link">
@@ -213,10 +234,16 @@
         footerContent += '<a href="https://broker360.ie/plugins/" target="_blank" style="color: #0066cc; text-decoration: none;">Powered by Broker360 Plugins</a>';
 
         footer.innerHTML = footerContent;
-        document.querySelector('#best3wrap').appendChild(footer);
+        const best3wrap = document.querySelector('#best3wrap');
+        if (best3wrap) {
+          best3wrap.appendChild(footer);
+          console.log('Switcher: Footer added');
+        } else {
+          console.error('Switcher: #best3wrap not found for footer');
+        }
       },
       error: function(xhr, status, error) {
-        console.error('Failed to fetch mortgage rates:', error);
+        console.error('Switcher: Failed to fetch mortgage rates:', error, xhr);
       }
     });
     }
