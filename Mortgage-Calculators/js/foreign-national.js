@@ -14,7 +14,9 @@ jQuery(document).ready(function ($) {
   var $wmcOutputs = $("#wmcOutputs");
 
 
-  var actionURL='https://whichmortgage.ie/start-an-application-2/';
+  var actionURL = (typeof mortgageCalcAjax !== 'undefined' && mortgageCalcAjax.getInTouchUrl)
+    ? mortgageCalcAjax.getInTouchUrl
+    : 'https://whichmortgage.ie/start-an-application-2/';
 
 
   function convertInt(strn) {

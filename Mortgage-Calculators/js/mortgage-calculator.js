@@ -239,6 +239,8 @@
           return;
         }
 
+        const getInTouchUrl = mortgageCalcAjax.getInTouchUrl || 'https://whichmortgage.ie/start-an-application-2/';
+
         top3.forEach((m, index) => {
           const rateValue = m.rateValue;
           parnt.insertAdjacentHTML('beforeend',
@@ -252,7 +254,7 @@
                   <li class="set_int_rate"> <span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate </li>
                 </ul>
                 <div class="boIFooter">
-                  <a target="_blunk" href="https://whichmortgage.ie/start-an-application-2/" data-url="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit target_url_link">
+                  <a target="_blank" href="${getInTouchUrl}" data-url="${getInTouchUrl}" class="wmcBtn btnGit target_url_link">
                       Get in touch
                   </a>
                 </div>
