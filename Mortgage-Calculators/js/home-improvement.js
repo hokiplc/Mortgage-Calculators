@@ -15,7 +15,9 @@ jQuery(document).ready(function($) {
     var $termSlider = $("#loanTermRangeSlide");
     var $wmcOutputs = $("#wmcOutputs");
 
-    var actionURL='https://whichmortgage.ie/start-an-application-2/';
+    var actionURL = (typeof mortgageCalcAjax !== 'undefined' && mortgageCalcAjax.getInTouchUrl)
+      ? mortgageCalcAjax.getInTouchUrl
+      : 'https://whichmortgage.ie/start-an-application-2/';
 
     /**
      * Validate form fields

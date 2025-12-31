@@ -59,6 +59,8 @@ function showBest3() {
     const principal = parseFloat(document.getElementById("wmcMortgageAmount")?.value.replace(/[^\d.]/g, '')) || 0;
     const term = parseInt(document.getElementById("loanTermRangeSlide")?.value) || 30;
 
+    const getInTouchUrl = mortgageCalcAjax.getInTouchUrl || 'https://whichmortgage.ie/start-an-application-2/';
+
     top3.forEach((m) => {
       const monthly = calculateMonthlyPayment(principal, m.numericRate, term);
       const rateValue = m.rateValue;
@@ -73,7 +75,7 @@ function showBest3() {
               <li class="set_int_rate"> <span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate </li>
             </ul>
             <div class="boIFooter">
-              <a target="_blank" href="https://whichmortgage.ie/start-an-application-2/" data-url="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit target_url_link">
+              <a target="_blank" href="${getInTouchUrl}" data-url="${getInTouchUrl}" class="wmcBtn btnGit target_url_link">
                 Get in touch
               </a>
             </div>
