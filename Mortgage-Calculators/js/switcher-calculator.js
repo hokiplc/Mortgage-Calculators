@@ -232,9 +232,9 @@
             month: 'long',
             day: 'numeric'
           });
-          footerContent = `Rates last updated: ${formattedDate} | `;
+          footerContent += `<p>Rates last updated: ${formattedDate}</p>`;
         }
-        footerContent += '<a href="https://broker360.ie/plugins/" target="_blank" style="color: #0066cc; text-decoration: none;">Powered by Broker360 Plugins</a>';
+        footerContent += '<p>Powered by <a href="https://broker360.ai/plugins" target="_blank" rel="noopener">Broker 360 Plugins</a></p>';
 
         footer.innerHTML = footerContent;
         const best3wrap = document.querySelector('#best3wrap');
