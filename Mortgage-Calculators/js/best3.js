@@ -36,10 +36,11 @@ function showBest3() {
     const principal = parseFloat(document.getElementById("wmcMortgageAmount")?.value.replace(/[^\d.]/g, '')) || 0;
     const term = parseInt(document.getElementById("loanTermRangeSlide")?.value) || 30;
 
-    top3.forEach((m) => {
+    top3.forEach((m, index) => {
       const monthly = calculateMonthlyPayment(principal, m.numericRate, term);
+      const bestRateClass = index === 0 ? ' best-rate' : '';
       parnt.insertAdjacentHTML('beforeend',
-        `<div class="wmcCol">
+        `<div class="wmcCol${bestRateClass}">
           <div class="boItem">
             <div class="boItemImg">
               <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.Company}.webp" alt="">

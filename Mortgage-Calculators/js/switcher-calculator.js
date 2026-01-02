@@ -161,9 +161,10 @@
 
         const top3 = unique.slice(0, 3);
         const wrap = document.querySelector('#best3wrap .wmcRow');
-        top3.forEach(m => {
+        top3.forEach((m, index) => {
+          const bestRateClass = index === 0 ? ' best-rate' : '';
           wrap.insertAdjacentHTML('beforeend', `
-            <div class="wmcCol">
+            <div class="wmcCol${bestRateClass}">
               <div class="boItem">
                 <div class="boItemImg">
                   <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.Company}.webp" alt="">
