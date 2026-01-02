@@ -139,15 +139,32 @@
     }
 
     function showBest3() {
-      $.getJSON(`${document.location.origin}/wp-content/plugins/mortgage-calculator/js/bestrate.json`, function (data) {
-        const filtered = data.map(m => ({
+      jQuery.ajax({
+      url: mortgageCalcAjax.ajaxUrl,
+      type: 'POST',
+      data: { action: 'get_mortgage_rates' },
+      dataType: 'json',
+      success: function(data) {
+        let metadata = null;
+        let rates = data;
+
+        // Check if data has metadata
+        if (Array.isArray(data) && data.length > 0 && data[0]._metadata === 'timestamp') {
+          metadata = data[0];
+          rates = data.slice(1);
+        }
+
+        const filtered = rates.map(m => ({
           ...m,
-          numericRate: parseFloat(m.Rate)
+          lenderName: m.lender || m.Company,
+          rateValue: parseFloat(m.ratePercent || m.Rate || m.rate || 0),
+          numericRate: parseFloat(m.ratePercent || m.Rate || m.rate || 0),
+          notesField: m.notes || m.NOTES || ''
         })).filter(m =>
-            m.Company !== "AIB" &&
-            m.Company !== "EBS" &&
-            typeof m.NOTES === 'string' &&
-            /btl/i.test(m.NOTES) &&
+            m.lenderName !== "AIB" &&
+            m.lenderName !== "EBS" &&
+            typeof m.notesField === 'string' &&
+            /btl/i.test(m.notesField) &&
             Number.isFinite(m.numericRate)
         );
 
@@ -156,8 +173,8 @@
 
         const seen = new Set();
         const unique = sorted.filter(m => {
-          if (!seen.has(m.Company)) {
-            seen.add(m.Company);
+          if (!seen.has(m.lenderName)) {
+            seen.add(m.lenderName);
             return true;
           }
           return false;
@@ -167,25 +184,59 @@
         top3.forEach((m, index) => {
           const wrap = document.querySelector('#best3wrap .wmcRow');
           const bestRateClass = index === 0 ? ' best-rate' : '';
+        const wrap = document.querySelector('#best3wrap .wmcRow');
+        if (!wrap) {
+          console.error('BTL Calculator: #best3wrap .wmcRow not found');
+          return;
+        }
+
+        const getInTouchUrl = mortgageCalcAjax.getInTouchUrl || 'https://whichmortgage.ie/start-an-application-2/';
+
+        top3.forEach(m => {
+          const rateValue = m.rateValue;
           wrap.insertAdjacentHTML('beforeend',
             `<div class="wmcCol${bestRateClass}">
               <div class="boItem">
                 <div class="boItemImg">
-                  <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.Company}.webp" alt="">
+                  <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lenderName}.webp" alt="">
                 </div>
                 <ul class="boItemtxt">
                   <li class="set_monthly_payment">€<span></span> Monthly</li>
-                  <li class="set_int_rate"> <span>${m.Rate}</span>% Interest Rate </li>
+                  <li class="set_int_rate"> <span>${parseFloat(rateValue).toFixed(2)}</span>% Interest Rate </li>
                 </ul>
                 <div class="boIFooter">
-                  <a target="_blunk" href="https://whichmortgage.ie/start-an-application-2/" data-url="https://whichmortgage.ie/start-an-application-2/" class="wmcBtn btnGit target_url_link">
+                  <a target="_blank" href="${getInTouchUrl}" data-url="${getInTouchUrl}" class="wmcBtn btnGit target_url_link">
                     Get in touch
                   </a>
                 </div>
               </div>
             </div>`);
         });
-      });
+
+        // Add footer with timestamp and link
+        const footer = document.createElement('div');
+        footer.className = 'wmcTableFooter';
+        footer.style.cssText = 'text-align: center; padding: 15px 10px; font-size: 12px; color: #666; border-top: 1px solid #e0e0e0; margin-top: 20px;';
+
+        let footerContent = '';
+        if (metadata && metadata.last_updated) {
+          const updateDate = new Date(metadata.last_updated);
+          const formattedDate = updateDate.toLocaleDateString('en-IE', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          footerContent += `<p>Rates last updated: ${formattedDate}</p>`;
+        }
+        footerContent += '<p>Powered by <a href="https://broker360.ai/plugins" target="_blank" rel="noopener">Broker 360 Plugins</a></p>';
+
+        footer.innerHTML = footerContent;
+        document.querySelector('#best3wrap').appendChild(footer);
+      },
+      error: function(xhr, status, error) {
+        console.error('Failed to fetch mortgage rates:', error);
+      }
+    });
     }
 
     showBest3();
