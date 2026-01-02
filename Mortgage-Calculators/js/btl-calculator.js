@@ -181,6 +181,9 @@
         });
 
         const top3 = unique.slice(0, 3);
+        top3.forEach((m, index) => {
+          const wrap = document.querySelector('#best3wrap .wmcRow');
+          const bestRateClass = index === 0 ? ' best-rate' : '';
         const wrap = document.querySelector('#best3wrap .wmcRow');
         if (!wrap) {
           console.error('BTL Calculator: #best3wrap .wmcRow not found');
@@ -192,7 +195,7 @@
         top3.forEach(m => {
           const rateValue = m.rateValue;
           wrap.insertAdjacentHTML('beforeend',
-            `<div class="wmcCol">
+            `<div class="wmcCol${bestRateClass}">
               <div class="boItem">
                 <div class="boItemImg">
                   <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lenderName}.webp" alt="">

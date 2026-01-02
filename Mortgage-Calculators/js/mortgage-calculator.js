@@ -242,9 +242,11 @@
         const getInTouchUrl = mortgageCalcAjax.getInTouchUrl || 'https://whichmortgage.ie/start-an-application-2/';
 
         top3.forEach((m, index) => {
+          const parnt = document.querySelector('#best3wrap .wmcRow');
+          const bestRateClass = index === 0 ? ' best-rate' : '';
           const rateValue = m.rateValue;
           parnt.insertAdjacentHTML('beforeend',
-            `<div class="wmcCol">
+            `<div class="wmcCol${bestRateClass}">
               <div class="boItem">
                 <div class="boItemImg">
                   <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lenderName}.webp" alt="">

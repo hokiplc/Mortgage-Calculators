@@ -193,6 +193,8 @@
         console.log('Switcher: Top 3 rates:', top3);
 
         const wrap = document.querySelector('#best3wrap .wmcRow');
+        top3.forEach((m, index) => {
+          const bestRateClass = index === 0 ? ' best-rate' : '';
         if (!wrap) {
           console.error('Switcher: #best3wrap .wmcRow not found');
           return;
@@ -203,7 +205,7 @@
         top3.forEach(m => {
           const rateValue = m.rateValue;
           wrap.insertAdjacentHTML('beforeend', `
-            <div class="wmcCol">
+            <div class="wmcCol${bestRateClass}">
               <div class="boItem">
                 <div class="boItemImg">
                   <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lenderName}.webp" alt="">

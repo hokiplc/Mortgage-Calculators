@@ -10,6 +10,8 @@ function showBest3() {
     return;
   }
 
+  jQuery.getJSON(`${document.location.origin}/wp-content/plugins/mortgage-calculator/js/bestrate.json`, function (data) {
+    const sortedByRate = data.map(m => ({
   jQuery.ajax({
     url: mortgageCalcAjax.ajaxUrl,
     type: 'POST',
@@ -59,13 +61,16 @@ function showBest3() {
     const principal = parseFloat(document.getElementById("wmcMortgageAmount")?.value.replace(/[^\d.]/g, '')) || 0;
     const term = parseInt(document.getElementById("loanTermRangeSlide")?.value) || 30;
 
+    top3.forEach((m, index) => {
+      const monthly = calculateMonthlyPayment(principal, m.numericRate, term);
+      const bestRateClass = index === 0 ? ' best-rate' : '';
     const getInTouchUrl = mortgageCalcAjax.getInTouchUrl || 'https://whichmortgage.ie/start-an-application-2/';
 
     top3.forEach((m) => {
       const monthly = calculateMonthlyPayment(principal, m.numericRate, term);
       const rateValue = m.rateValue;
       parnt.insertAdjacentHTML('beforeend',
-        `<div class="wmcCol">
+        `<div class="wmcCol${bestRateClass}">
           <div class="boItem">
             <div class="boItemImg">
               <img src="${document.location.origin}/wp-content/plugins/mortgage-calculator/images/${m.lenderName}.webp" alt="">
