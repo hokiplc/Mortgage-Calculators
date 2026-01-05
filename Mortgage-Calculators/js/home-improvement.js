@@ -129,16 +129,27 @@ jQuery(document).ready(function($) {
     // Handle calculate button click
     $calcBtn.on("click", function(e) {
         e.preventDefault();
-        
+
         if (!validateFields()) {
             return;
         }
 
+        var ageVal = parseInt($age.val());
         var newMortgage = updateMortgageRequired();
-        var term = $termSlider.val();
-        
+
+        // Calculate loan term based on age
+        var dyloanterm = 35;
+        if (ageVal < 30) {
+            dyloanterm = 35;
+        } else if (ageVal <= 60) {
+            dyloanterm = Math.min(35, 70 - ageVal);
+        } else {
+            dyloanterm = 5;
+        }
+
         $opMortgage.text('€' + newMortgage.toLocaleString());
-        $opTerm.text(term + " yrs");
+        $opTerm.text(dyloanterm + " yrs");
+        $termSlider.val(dyloanterm);
         $wmcOutputs.show();
 
 
@@ -162,7 +173,7 @@ jQuery(document).ready(function($) {
                         if(formType.toLowerCase().trim()=='joint'){
                             grossSalary +=parseFloat($("#wmcPartnerIncome").val().replace(/,/g, ''));
                         }
-                        let seturl=`${actionURL}?income=${grossSalary}&loanValue=${mortgageAmount}&propertyValue=${propertyValue}&term=${term}&loanType=${loantype}`;
+                        let seturl=`${actionURL}?income=${grossSalary}&loanValue=${mortgageAmount}&propertyValue=${propertyValue}&term=${dyloanterm}&loanType=${loantype}`;
                         $(this).find('a.target_url_link').attr('href',seturl);
 
                     });
