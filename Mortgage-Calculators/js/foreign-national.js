@@ -121,9 +121,22 @@ jQuery(document).ready(function ($) {
       return;
     }
 
+    var ageVal = parseInt($age.val());
     var loan = parseFloat($mortgageAmount.val().replace(/[^\d.]/g, '')) || 0;
+
+    // Calculate loan term based on age
+    var dyloanterm = 35;
+    if (ageVal < 30) {
+      dyloanterm = 35;
+    } else if (ageVal <= 60) {
+      dyloanterm = Math.min(35, 70 - ageVal);
+    } else {
+      dyloanterm = 5;
+    }
+
     $opMortgage.text("€" + loan.toLocaleString());
-    $opTerm.text($termSlider.val() + " yrs");
+    $opTerm.text(dyloanterm + " yrs");
+    $termSlider.val(dyloanterm);
     $wmcOutputs.show();
 
     setTimeout(function () {
